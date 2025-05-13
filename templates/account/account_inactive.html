@@ -1,0 +1,11 @@
+{% extends "default.html" %}
+{% block content %}
+<form action="{% url 'confirm_user' %}" method="post">
+    {% csrf_token %}
+    <label for="code">Введите код подтверждения</label>
+    <label>
+        <input id="code" type="text" name="code">
+        <input type="submit" value="Подтвердить">
+    </label>
+</form>
+{% endblock content %}
