@@ -1,7 +1,9 @@
 from allauth.account.forms import SignupForm
 import random
 from string import hexdigits
+from django.forms import ModelForm
 
+from board.models import Post, Comment
 from project import settings
 from django.core.mail import send_mail
 
@@ -21,3 +23,15 @@ class ConfirmSignupForm(SignupForm):
             recipient_list=[user.email],
         )
         return user
+
+
+class PostForm(ModelForm):
+    class Meta:
+        model = Post
+        fields = ['title', 'content', 'category']
+
+
+class CommentForm(ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['content']

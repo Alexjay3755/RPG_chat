@@ -1,0 +1,31 @@
+{% extends 'default.html' %}
+
+{% block title %}
+Объявление {{ post.title }}
+{% endblock title %}
+
+{% block content %}
+<table>
+    <tr>
+        <td>Заголовок</td>
+        <td>Содержание</td>
+    </tr>
+    <tr>
+        <td>{{ post.title }}</td>
+        <td>{{ post.content }}</td>
+    </tr>
+</table>
+<br>
+<h3>Добавить комментарий</h3>
+<form action="" method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <input type="submit" value="Добавить">
+</form>
+<br>
+<h3>Все комментарии:</h3>
+{% for comment in post.comment_set.all %}
+<p>Комментарий {{ comment.id }} {{ comment.content }}</p>
+{% endfor %}
+
+{% endblock content %}

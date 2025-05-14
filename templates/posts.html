@@ -1,0 +1,22 @@
+{% extends 'default.html' %}
+
+{% block title %}
+Список объявлений
+{% endblock title %}
+
+{% block content %}
+<table>
+    <tr>
+        <td>Заголовок</td>
+        <td>Содержание</td>
+    </tr>
+    {% for post in posts %}
+    <tr>
+        <td>
+            <a href="{% url 'post_detail' post.id %}">{{ post.title }}</a>
+        </td>
+        <td>{{ post.content }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock content %}
