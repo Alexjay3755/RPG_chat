@@ -5,6 +5,9 @@
 {% endblock title %}
 
 {% block content %}
+<td><a href="{% url 'post_list' %}" class="btn btn-outline-primary btn-sm">Вернуться страницу c объявлениями</a></td>
+<br>
+<br>
 <table>
     <tr>
         <td>Заголовок</td>
@@ -12,7 +15,7 @@
     </tr>
     <tr>
         <td>{{ post.title }}</td>
-        <td>{{ post.content }}</td>
+        <td>{{ post.content|safe }}</td>
     </tr>
 </table>
 <br>
@@ -25,7 +28,7 @@
 <br>
 <h3>Все комментарии:</h3>
 {% for comment in post.comment_set.all %}
-<p>Комментарий {{ comment.id }} {{ comment.content }}</p>
+<p>Комментарий {{ comment.id }}: {{ comment.content }}</p>
 {% endfor %}
 
 {% endblock content %}

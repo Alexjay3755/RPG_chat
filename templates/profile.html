@@ -6,17 +6,23 @@
 {% block content %}
 <h3>Страница авторизованного пользователя {{ user.username }}</h3>
 <br>
+<td><a href="{% url 'post_create' %}" class="btn btn-outline-success btn-sm">Добавить объявление</a></td>
+<br>
+<br>
+<td><a href="{% url 'post_list' %}" class="btn btn-outline-primary btn-sm">Объявления всех пользователей</a></td>
+<br>
+<br>
 <form action="" method="get">
     {{ filterset.form.as_p }}
 <input type="submit" value="Применить">
 </form>
 <br>
 {% if comments %}
-<h4>Все оклики</h4>
+<h4>Все оклики:</h4>
 <table>
     <tr>
         <td>Содержание</td>
-        <td>К посту</td>
+        <td>К объявлению</td>
         <td>Статус</td>
         <td>Автор объявления</td>
     </tr>
@@ -24,13 +30,11 @@
     <tr>
         <td>{{ comment.content }}</td>
         <td>{{ comment.post.title }}</td>
-           {% if comment.status %}
+         {% if comment.status %}
         <td>{{ comment.status }}</td>
         {% else %}
-        <td>
-            <a href="{% url 'comment_delete' comment.id%}" class="btn btn-outline-danger btn-sm">Удалить</a>
-            <a href="{% url 'comment_accept' comment.id%}" class="btn btn-outline-success btn-sm">Принять</a>
-        </td>
+        <td><a href="{% url 'comment_accept' comment.id%}" class="btn btn-outline-success btn-sm">Принять</a>
+        <a href="{% url 'comment_delete' comment.id%}" class="btn btn-outline-danger btn-sm">Удалить</a></td>
         {% endif %}
         <td>{{ comment.post.user }}</td>
     </tr>
@@ -39,4 +43,9 @@
        Комментариев пока нет!
     {% endif %}
 </table>
+<br>
+    <form action="/accounts/logout/" method="post">
+        {% csrf_token %}
+        <input type="submit" value="Выйти">
+    </form>
 {% endblock content %}

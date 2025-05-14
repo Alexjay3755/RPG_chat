@@ -1,7 +1,8 @@
-
+from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.messages.context_processors import messages
+from django.core.mail import send_mail
 from django.shortcuts import render, redirect
-from django.utils.translation.template import context_re
 from django.views.generic import  UpdateView, ListView, DetailView, CreateView
 
 from board.filters import CommentFilter
@@ -70,6 +71,12 @@ class PostDetail(DetailView):
             comment.post = post
             comment.user = self.request.user
             comment.save()
+            send_mail(
+                subject='Отклик на объявление!',
+                message=f'Привет! На Ваше объявление "{post.title}" оставлен отклик пользователем "{comment.user}"',
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=[post.user.email]
+            )
             return redirect('post_detail', pk=post.pk)
         return self.render_to_response(self.get_context_data(form=form, post=post))
 
@@ -91,6 +98,12 @@ def comment_accept(request, pk):
     comment = Comment.objects.get(pk=pk)
     comment.status = True
     comment.save()
+    send_mail(
+        subject='Изменение статуса отклика!',
+        message=f'Привет! Ваш отклик на объявление "{comment.post.title}..." был принят автором!',
+        from_email=settings.DEFAULT_FROM_EMAIL,
+        recipient_list=[comment.user.email]
+    )
     return redirect('/')
 
 

@@ -5,17 +5,22 @@
 {% endblock title %}
 
 {% block content %}
+<td><a href="{% url 'profile' %}" class="btn btn-outline-success btn-sm">Перейти наличную страницу</a></td>
+<br>
+<br>
 <table>
     <tr>
         <td>Заголовок</td>
         <td>Содержание</td>
+        <td>Автор объявления</td>
     </tr>
     {% for post in posts %}
     <tr>
         <td>
             <a href="{% url 'post_detail' post.id %}">{{ post.title }}</a>
         </td>
-        <td>{{ post.content|truncatechars:50 }}</td>
+        <td>{{ post.content|safe }}</td>
+        <td>{{ post.user }}</td>
     </tr>
     {% endfor %}
 </table>
