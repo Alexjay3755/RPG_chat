@@ -7,18 +7,68 @@ class User(AbstractUser):
     code = models.CharField(max_length=10, null=True, blank=True)
 
 
-class Category(models.Model):
-    name = models.CharField(max_length=100)
+# class Category(models.Model):
 
-    def __str__(self):
-        return self.name
+    # tanks = 'TA'
+    # healers = 'HL'
+    # dd = 'DD'
+    # merchants = 'MC'
+    # guildmasters = 'GM'
+    # questgivers = 'QG'
+    # blacksmiths = 'BS'
+    # tanners = 'TN'
+    # potionmakers = 'PM'
+    # spellmasters = 'SM'
+    #
+    # options = [
+    #     (tanks, 'Танки'),
+    #     (healers, 'Хилы'),
+    #     (dd, 'ДД'),
+    #     (merchants, 'Торговцы'),
+    #     (guildmasters, 'Гилдмастеры'),
+    #     (questgivers, 'Квестгиверы'),
+    #     (blacksmiths, 'Кузнецы'),
+    #     (tanners, 'Кожевники'),
+    #     (potionmakers, 'Зельевары'),
+    #     (spellmasters, 'Мастера заклинаний'),
+    # ]
+
+    # name = models.CharField(max_length=2, choices=options, default=tanks)
+
+    # def __str__(self):
+    #     return self.name
 
 
 class Post(models.Model):
+
+    tanks = 'TA'
+    healers = 'HL'
+    dd = 'DD'
+    merchants = 'MC'
+    guildmasters = 'GM'
+    questgivers = 'QG'
+    blacksmiths = 'BS'
+    tanners = 'TN'
+    potionmakers = 'PM'
+    spellmasters = 'SM'
+
+    options = [
+        (tanks, 'Танки'),
+        (healers, 'Хилы'),
+        (dd, 'ДД'),
+        (merchants, 'Торговцы'),
+        (guildmasters, 'Гилдмастеры'),
+        (questgivers, 'Квестгиверы'),
+        (blacksmiths, 'Кузнецы'),
+        (tanners, 'Кожевники'),
+        (potionmakers, 'Зельевары'),
+        (spellmasters, 'Мастера заклинаний'),
+    ]
+
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
     content = RichTextUploadingField()
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    category = models.CharField(max_length=2, choices=options, default=tanks)
     date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

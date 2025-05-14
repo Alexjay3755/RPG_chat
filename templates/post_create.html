@@ -5,6 +5,9 @@
 {% endblock title %}
 
 {% block content %}
+<td><a href="{% url 'profile' %}" class="btn btn-outline-success btn-sm">Вернуться на свою страницу</a></td>
+<br>
+<br>
 <h3>Создание объявления</h3>
 <form action="" method="post">
   {% csrf_token %}
