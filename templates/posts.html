@@ -15,7 +15,7 @@
         <td>
             <a href="{% url 'post_detail' post.id %}">{{ post.title }}</a>
         </td>
-        <td>{{ post.content }}</td>
+        <td>{{ post.content|truncatechars:50 }}</td>
     </tr>
     {% endfor %}
 </table>

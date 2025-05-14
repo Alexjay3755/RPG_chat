@@ -1,15 +1,33 @@
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
-from django.views.generic import TemplateView, UpdateView, ListView, DetailView, CreateView
+from django.utils.translation.template import context_re
+from django.views.generic import  UpdateView, ListView, DetailView, CreateView
 
+from board.filters import CommentFilter
 from board.forms import PostForm, CommentForm
 from board.models import User, Post, Comment
 
 
-class Profile(LoginRequiredMixin, TemplateView):
-    def get(self, request, *args, **kwargs):
-        return render(self.request, 'profile.html')
+class Profile(LoginRequiredMixin, ListView):
+
+    def __init__(self):
+        super().__init__()
+        self.filterset =None
+
+    model = Comment
+    template_name = 'profile.html'
+    context_object_name = 'comments'
+
+    def get_queryset(self):
+        queryset = Comment.objects.filter(post__user=self.request.user)
+        self.filterset = CommentFilter(self.request.GET, queryset, request=self.request.user)
+        return self.filterset.qs
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['filterset'] = self.filterset
+        return context
 
 
 class ConfirmUser(UpdateView):
@@ -44,7 +62,6 @@ class PostDetail(DetailView):
         return context
 
 
-
     def post(self, request, *args, **kwargs):
         post = self.get_object()
         form = CommentForm(request.POST)
@@ -70,3 +87,13 @@ class PostCreate(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
+def comment_accept(request, pk):
+    comment = Comment.objects.get(pk=pk)
+    comment.status = True
+    comment.save()
+    return redirect('/')
+
+
+def comment_delete(request, pk):
+    Comment.objects.get(pk=pk).delete()
+    return redirect('/')
