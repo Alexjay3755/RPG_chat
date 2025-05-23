@@ -112,3 +112,4 @@ def comment_delete(request, pk):
     return redirect('/')
 
 """ Проверка команд Git """
+""" Проверка команд Git-2 """
