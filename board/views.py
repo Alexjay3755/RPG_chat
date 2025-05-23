@@ -110,3 +110,5 @@ def comment_accept(request, pk):
 def comment_delete(request, pk):
     Comment.objects.get(pk=pk).delete()
     return redirect('/')
+
+""" Проверка команд Git """
